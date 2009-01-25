@@ -39,29 +39,29 @@ if(!empty($_POST['Submit'])){
 /*-_-_-_-_-_-_-_-_-_-_-_-_ PLUGIN CONTENT PROCESSING _-_-_-_-_-_-_-_-_-_-_-_*/
 
 /*Scripts and styles are added to the head of the rendered page*/
+
+function ilc_flvbox_init(){
+	if(get_option('ilc_tb') == 'on') {
+		if(get_option('ilc_flvbox_esar') == 'on')
+			wp_enqueue_script('tickbox', '/wp-content/plugins/ilc-flvbox/thickbox_ES.js', array('jquery'));
+		else
+			wp_enqueue_script('tickbox', '/wp-content/plugins/ilc-flvbox/thickbox_EN.js', array('jquery'));
+	}
+}
+
 function ilc_flvbox_wphead() {
 	global $flvbox_dir;
 	global $flvbox_width;
 	global $flvbox_height;
 ?>
 	<!-- begin ilc_flvbox scripts -->
-	<?php	if(get_option('ilc_tb') == 'on') { 
-				wp_enqueue_script('jquery');
-				$flvbox_dir_tb = $flvbox_dir;
-				if(get_option('ilc_flvbox_esar') == 'on'){
-					$flvbox_dir_tb .= 'thickbox_ES.js';
-				}
-				else{
-					$flvbox_dir_tb .= 'thickbox_EN.js';
-				}				
-	?>
-				<script type="text/javascript" src="<?php echo $flvbox_dir_tb; ?>"></script>
+	<?php	if(get_option('ilc_tb') == 'on') {?>
 				<link rel="stylesheet" href="<?php echo $flvbox_dir; ?>thickbox.css" type="text/css" media="screen" />
-				<link rel="stylesheet" href="<?php echo $flvbox_dir; ?>flvbox.css" type="text/css" media="screen" />
+				<link rel="stylesheet" href="<?php echo $flvbox_dir; ?>flvbox.css"    type="text/css" media="screen" />
 	<?php	} ?>
 	
 	<script type="text/javascript" src="<?php echo $flvbox_dir; ?>swfobject15.js"></script>
-	<script>
+	<script type="text/javascript">
 	//<![CDATA[
 	function ilc_loadVideo(thisVideo)
 	{
@@ -112,6 +112,7 @@ function ilc_flvbox_add($content){
 	return $content;
 }
 
+add_action('init', 'ilc_flvbox_init');
 add_action('wp_head', 'ilc_flvbox_wphead');
 add_filter('the_content', 'ilc_flvbox_add');
 
