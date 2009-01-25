@@ -67,10 +67,13 @@ function ilc_flvbox_wphead() {
 	{
 		var ver = "9.0.0";
 		var bgc = "#000000";
-		<?php if (get_option('ilc_player') == 0) { ?>
-			var so = new SWFObject("<?php echo $flvbox_dir; ?>mpwplayer.swf?flv=" + thisVideo + ".flv" + "&jpg=" + thisVideo + ".jpg", thisVideo, "<?php echo $flvbox_width; ?>", "<?php echo $flvbox_height; ?>", ver, bgc, true);
-		<?php }else if (get_option('ilc_player') == 1){
-					if(get_option('ilc_tb') == 'on') { $ilc_flvbox_osflv_ap = 'on';} else { $ilc_flvbox_osflv_ap = 'off';}
+		<?php if (get_option('ilc_player') == 0) {
+				if(get_option('ilc_tb') == 'on') { $ilc_flvbox_osflv_ap = '1';} else { $ilc_flvbox_osflv_ap = '0';}
+		?>
+			var so = new SWFObject("<?php echo $flvbox_dir; ?>mpwplayer.swf?flv=" + thisVideo + ".flv" + "&jpg=" + thisVideo + ".jpg&autoplay=" + <?php
+			echo $ilc_flvbox_osflv_ap ; ?>, thisVideo, "<?php echo $flvbox_width; ?>", "<?php echo $flvbox_height; ?>", ver, bgc, true);
+		<?php } else if (get_option('ilc_player') == 1){
+				if(get_option('ilc_tb') == 'on') { $ilc_flvbox_osflv_ap = 'on';} else { $ilc_flvbox_osflv_ap = 'off';}
 		?>
 			var so = new SWFObject("<?php echo $flvbox_dir; ?>player.swf?movie=" + thisVideo + ".flv&bgcolor=0x<?php echo get_option('ilc_flvbox_osflv_bgcolor'); ?>&fgcolor=0x<?php echo get_option('ilc_flvbox_osflv_fgcolor'); ?>&volume=<?php echo get_option('ilc_flvbox_osflv_volume'); ?>&autoplay=<?php echo $ilc_flvbox_osflv_ap; ?>", thisVideo, "<?php echo $flvbox_width; ?>", "<?php echo $flvbox_height; ?>", ver, bgc, true);
 		<?php } ?>
@@ -232,7 +235,7 @@ function ilc_flvbox_settings($links, $file) {
 			if (strpos($v, 'plugin-editor.php?file=') !== false)
 				unset($links[$k]);
 		}
-		$links[] = "<a href='options-general.php?page=ilc_flvbox/flvbox.php'><b>Settings &raquo;</b></a>";
+		$links[] = "<a href='options-general.php?page=".plugin_basename(dirname(__FILE__))."/flvbox.php'><b>Settings &raquo;</b></a>";
 	}
 	return $links;
 }
@@ -250,7 +253,7 @@ function ilc_flvbox_activate(){
 	add_option("ilc_player", "0");
 	add_option("ilc_flvbox_width", "427");
 	add_option("ilc_flvbox_height", "320");
-	add_option("ilc_flvbox_path", "/wp-content/plugins/ilc_flvbox/");
+	add_option("ilc_flvbox_path", "/wp-content/plugins/ilc-flvbox/");
 	add_option("ilc_flvbox_osflv_bgcolor", "999999");
 	add_option("ilc_flvbox_osflv_fgcolor", "333333");
 	add_option("ilc_flvbox_osflv_volume", "75");	
