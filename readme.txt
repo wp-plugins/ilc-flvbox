@@ -34,7 +34,7 @@ http://code.google.com/p/swfobject/ (current 2.1 version)
 This software is provided without warranty of any kind.
 
 There's an option page with an option to select an FLV Player. You can choose here your player, MiPlayWeb or OSFLV. If you select OSFLV more options are unfolded (background and foreground colors, initial volume level). Flowplayer player will be added later to the list of optional players.
-When you check the box enabling ThickBox, a textarea is unfolded containing an CSS file that will allow you to set the style of the inline image. You can also edit this file independently on your editor of choice, by opening the flvbox.css file.
+When you check the box enabling ThickBox, a textarea is unfolded containing an CSS file that will allow you to set the style of the inline image. You can also edit this file independently on your editor of choice, by opening the flvbox.css file. If Thickbox is in use, the player is set to autoplay, so when you click on the image launching the player, the video will start inmediately.
 The FLVBox dimensions option sets the size of the player (indirectly, the video, but not specifically). The ThickBox area is adjusted accordingly.
 You can check the corresponding checkbox to use an spanish version of ThickBox. The english version ThickBox is modified with additional effects such as fadeIn, slideDown, fadeOut, etc.
 There's one last field in case you need to rename the folder or change the path of ILC_FLVBox.
