@@ -22,19 +22,7 @@ $flvbox_width = get_option('ilc_flvbox_width');
 $flvbox_height= get_option('ilc_flvbox_height');
 $flvbox_style = dirname(__FILE__) . '/flvbox.css';
 
-/*Save CSS file*/
-if(!empty($_POST['Submit'])){
-	$newStyle = stripslashes($_POST['ilc_flvbox_css']);
-	if(is_writeable($flvbox_style)) {
-	    $fow = fopen($flvbox_style, 'w+');
-	    fwrite($fow, $newStyle);
-		fclose($fow);
-	    echo ' <div id="message" class="updated fade"><p><strong>'. _e('Stylesheet saved.') .'</strong></p></div>'."\n";
-	}
-	else {
-		echo ' <div id="message" class="updated fade"><p><strong>'. _e('There has been an error trying to write the file. Are you sure you have permission to do so?') .'</strong></p></div>'."\n";
-	}
-}
+
 
 /*-_-_-_-_-_-_-_-_-_-_-_-_ PLUGIN CONTENT PROCESSING _-_-_-_-_-_-_-_-_-_-_-_*/
 
@@ -122,6 +110,19 @@ add_filter('the_content', 'ilc_flvbox_add');
 /*wp-admin options page*/
 function ilc_flvbox_options(){
 	wp_enqueue_script('jquery');
+	/*Save CSS file*/
+	if(!empty($_POST['Submit'])){
+		$newStyle = stripslashes($_POST['ilc_flvbox_css']);
+		if(is_writeable($flvbox_style)) {
+		    $fow = fopen($flvbox_style, 'w+');
+		    fwrite($fow, $newStyle);
+			fclose($fow);
+		    echo '<div id="message" class="updated fade"><p><strong>'. _e('Stylesheet saved.') .'</strong></p></div>'."\n";
+		}
+		else {
+			echo '<div id="message" class="updated fade"><p><strong>'. _e('There has been an error trying to write the file. Are you sure you have permission to do so?') .'</strong></p></div>'."\n";
+		}
+	}
 	global $flvbox_style;
 	?>
 	
