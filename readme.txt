@@ -13,7 +13,7 @@ Plays FLV video inline in content or in a modal dialog.
 
 ILC FLVBox will parse your post content looking for links to FLV videos. When found, it will add a player to play it inline or in a modal dialog.
 
-The modal dialog is currently handled by ThickBox, which requires jQuery.
+The modal dialog is currently handled by ThickBox, which requires jQuery. Both Thickbox and jQuery are loaded from the versions included with WordPress using wp_enqueue_script.
 
 http://jquery.com/demo/thickbox/
 http://jquery.com/
@@ -22,6 +22,7 @@ http://jquery.com/
 The FLV players included are:
 
 http://miplayweb.com/player/
+<br/>
 http://osflv.com/
 
 
@@ -36,8 +37,8 @@ This software is provided without warranty of any kind.
 There's an option page with an option to select an FLV Player. You can choose here your player, MiPlayWeb or OSFLV. If you select OSFLV more options are unfolded (background and foreground colors, initial volume level). Flowplayer player will be added later to the list of optional players.
 When you check the box enabling ThickBox, a textarea is unfolded containing an CSS file that will allow you to set the style of the inline image. You can also edit this file independently on your editor of choice, by opening the flvbox.css file. If Thickbox is in use, the player is set to autoplay, so when you click on the image launching the player, the video will start inmediately.
 The FLVBox dimensions option sets the size of the player (indirectly, the video, but not specifically). The ThickBox area is adjusted accordingly.
-You can check the corresponding checkbox to use an spanish version of ThickBox. The english version ThickBox is modified with additional effects such as fadeIn, slideDown, fadeOut, etc.
 There's one last field in case you need to rename the folder or change the path of ILC_FLVBox.
+Both Thickbox and jQuery are loaded from the versions included with WordPress using wp_enqueue_script.
 
 == Installation ==
 
@@ -50,10 +51,10 @@ There's one last field in case you need to rename the folder or change the path 
 == Frequently Asked Questions ==
 
 = I have changed ThickBox's css and nothing happens =
-Make sure you don't have other ThickBox loading.
+Make sure you don't have other ThickBox loading. The wp_enqueue_script is the safe method for including script files into WordPress but some plugin developers are not using it. Ask who develops your plugin to modify it by using wp_enqueue_script and wp_enqueue_style.
 
 = Which is the version of jQuery that this plugin uses? =
-The plugin enqueues the jQuery version included in WordPress. As of version 2.7 WP includes jQuery version 1.2.6. But WP 2.3.2 includes version 1.1.4 so it will probably be ok. I haven't tested ThickBox with jQuery 1.3 yet.
+The plugin enqueues the jQuery version included in WordPress. As of version 2.7 WP includes jQuery version 1.2.6. But WP 2.3.2 includes version 1.1.4 so it will probably be ok. I haven't tested ThickBox with jQuery 1.3 yet. The version included with WordPress is safe to be used along with scriptaculous, mootools and other libraries.
 
 == Screenshots ==
 
