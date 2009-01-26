@@ -3,7 +3,7 @@
 Plugin Name: ILC FLVBox
 Plugin URI: http://www.ilovecolors.com.ar/
 Description: Shows flv video as inline content or in modal dialog. Uses <a href="http://miplayweb.com/player/" target="_blank">MiPlayWeb</a>, <a href="http://osflv.com/" target="_blank">OSFLV Player</a> and <a href="http://jquery.com/demo/thickbox/" target="_blank">ThickBox</a>.
-Version: 1.0.2
+Version: 1.0.4
 Author: Elliot
 Author URI: http://www.ilovecolors.com.ar/
 
