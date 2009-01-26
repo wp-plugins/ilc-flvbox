@@ -29,12 +29,14 @@ $flvbox_style = dirname(__FILE__) . '/flvbox.css';
 /*Scripts and styles are added to the head of the rendered page*/
 
 function ilc_flvbox_init(){
+	global $flvbox_dir;
 	if(get_option('ilc_tb') == 'on') {
-		if(get_option('ilc_flvbox_esar') == 'on')
-			wp_enqueue_script('tickbox', '/wp-content/plugins/ilc-flvbox/thickbox_ES.js', array('jquery'));
-		else
-			wp_enqueue_script('tickbox', '/wp-content/plugins/ilc-flvbox/thickbox_EN.js', array('jquery'));
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('thickbox');
+			wp_enqueue_style ('thickbox');
+			wp_enqueue_style ('flvbox', $flvbox_dir . 'flvbox.css', false, false, 'screen');
 	}
+	wp_enqueue_script('swfobject15', $flvbox_dir . 'swfobject15.js', false, '1.5');
 }
 
 function ilc_flvbox_wphead() {
@@ -43,12 +45,16 @@ function ilc_flvbox_wphead() {
 	global $flvbox_height;
 ?>
 	<!-- begin ilc_flvbox scripts -->
-	<?php	if(get_option('ilc_tb') == 'on') {?>
-				<link rel="stylesheet" href="<?php echo $flvbox_dir; ?>thickbox.css" type="text/css" media="screen" />
-				<link rel="stylesheet" href="<?php echo $flvbox_dir; ?>flvbox.css"    type="text/css" media="screen" />
+	<?php
+	if(get_option('ilc_tb') == 'on') {?>
+		<script type="text/javascript">
+		//<![CDATA[ 
+		var tb_pathToImage = "<?php echo get_bloginfo('url'); ?>/wp-includes/js/thickbox/loadingAnimation.gif";
+		var tb_closeImage = "<?php echo get_bloginfo('url'); ?>/wp-includes/js/thickbox/tb-close.png";
+		//]]>
+		</script>
 	<?php	} ?>
 	
-	<script type="text/javascript" src="<?php echo $flvbox_dir; ?>swfobject15.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	function ilc_loadVideo(thisVideo)
@@ -82,7 +88,7 @@ function ilc_flvbox_add($content){
 	global $flvbox_width;
 	global $flvbox_height;
 	
-	$flvbox_tb_height = $flvbox_height+20;
+	$flvbox_tb_height = $flvbox_height;
 	$flvbox_tb_width  = $flvbox_width;
 	
 	$pattern = "/<a(.*?)href=('|\")([^>]*).(flv)('|\")(.*?)>(.*?)<\/a>/i";
@@ -202,13 +208,6 @@ function ilc_flvbox_options(){
 		</td>
 	</tr>
 	<tr valign="top">
-		<th scope="row"><?php _e('Use ThickBox es_AR') ?></th>
-		<td>
-		<input type="checkbox" id="esar" name="ilc_flvbox_esar" <?php if(get_option('ilc_flvbox_esar') == 'on') echo "checked=\"checked\"";?>/>
-			<label for="esar"><?php _e('Check this to use a es_AR translated version of ThickBox'); ?></label>
-		</td>
-	</tr>
-	<tr valign="top">
 		<th scope="row"><?php _e('FLVBox plugin path') ?></th>
 		<td>
 			<input type="text" name="ilc_flvbox_path" size="33" value="<?php echo get_option('ilc_flvbox_path'); ?>" />
@@ -219,7 +218,7 @@ function ilc_flvbox_options(){
 </table>
 
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="ilc_flvbox_path,ilc_player,ilc_tb,ilc_flvbox_width,ilc_flvbox_height,ilc_flvbox_esar,ilc_flvbox_osflv_bgcolor,ilc_flvbox_osflv_fgcolor,ilc_flvbox_osflv_volume" />
+<input type="hidden" name="page_options" value="ilc_flvbox_path,ilc_player,ilc_tb,ilc_flvbox_width,ilc_flvbox_height,ilc_flvbox_osflv_bgcolor,ilc_flvbox_osflv_fgcolor,ilc_flvbox_osflv_volume" />
 
 <p class="submit">
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button-primary" />
@@ -251,7 +250,6 @@ add_action('admin_menu', 'ilc_flvbox_plugin_menu');
 /*When the plugin is activated, we setup some options on the database*/
 function ilc_flvbox_activate(){
 	add_option("ilc_tb", "on");
-	add_option("ilc_flvbox_esar", "");
 	add_option("ilc_player", "0");
 	add_option("ilc_flvbox_width", "427");
 	add_option("ilc_flvbox_height", "320");
@@ -289,7 +287,6 @@ function ilc_flvbox_activate(){
 /*When the plugin is deactivated, we will erase all options from database*/
 function ilc_flvbox_deactivate(){
 	delete_option("ilc_tb");
-	delete_option("ilc_flvbox_esar");
 	delete_option("ilc_player");
 	delete_option("ilc_flvbox_path");
 	delete_option("ilc_flvbox_width");
