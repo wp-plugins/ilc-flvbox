@@ -48,6 +48,7 @@ Both Thickbox and jQuery are loaded from the versions included with WordPress us
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. You can access the options page via the Admin navigation or in the plugins list, using the Settings link.
 4. Edit a post/page, upload a video using the Add Video button and insert the link to the file into the post.
+5. If you wish to include a preview of the video upload a jpg image with the same name than the video. For example, if your video is "piano.flv" the jpg would be "piano.jpg".
 
 
 == Frequently Asked Questions ==
