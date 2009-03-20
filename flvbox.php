@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: ILC FLVBox
-Plugin URI: http://www.ilovecolors.com.ar/
+Plugin URI: http://ilovecolors.com.ar/wordpress-plugin-ilc-flvbox-flv-video-using-thickbox/
 Description: Shows flv video as inline content or in modal dialog. Uses <a href="http://miplayweb.com/player/" target="_blank">MiPlayWeb</a>, <a href="http://osflv.com/" target="_blank">OSFLV Player</a> and <a href="http://jquery.com/demo/thickbox/" target="_blank">ThickBox</a>.
-Version: 1.0.4
+Version: 1.0.3
 Author: Elliot
-Author URI: http://www.ilovecolors.com.ar/
+Author URI: http://ilovecolors.com.ar/
 
 ToDo:
 	1) Add separate options pages for players.
@@ -21,7 +21,6 @@ $flvbox_dir = get_bloginfo('url') . get_option('ilc_flvbox_path');
 $flvbox_width = get_option('ilc_flvbox_width');
 $flvbox_height= get_option('ilc_flvbox_height');
 $flvbox_style = dirname(__FILE__) . '/flvbox.css';
-
 
 
 /*-_-_-_-_-_-_-_-_-_-_-_-_ PLUGIN CONTENT PROCESSING _-_-_-_-_-_-_-_-_-_-_-_*/
@@ -115,21 +114,9 @@ add_filter('the_content', 'ilc_flvbox_add');
 /*-_-_-_-_-_-_-_-_-_-_-_-_ PLUGIN ADMIN OPTIONS PAGE _-_-_-_-_-_-_-_-_-_-_-_*/
 /*wp-admin options page*/
 function ilc_flvbox_options(){
-	wp_enqueue_script('jquery');
-	/*Save CSS file*/
-	if(!empty($_POST['Submit'])){
-		$newStyle = stripslashes($_POST['ilc_flvbox_css']);
-		if(is_writeable($flvbox_style)) {
-		    $fow = fopen($flvbox_style, 'w+');
-		    fwrite($fow, $newStyle);
-			fclose($fow);
-		    echo '<div id="message" class="updated fade"><p><strong>'. _e('Stylesheet saved.') .'</strong></p></div>'."\n";
-		}
-		else {
-			echo '<div id="message" class="updated fade"><p><strong>'. _e('There has been an error trying to write the file. Are you sure you have permission to do so?') .'</strong></p></div>'."\n";
-		}
-	}
 	global $flvbox_style;
+	wp_enqueue_script('jquery');
+
 	?>
 	
 <script type="text/javascript">
@@ -148,6 +135,8 @@ function ilc_flvbox_options(){
 	
 <div class="wrap">
 <h2><?php _e('ILC FLVBox Options'); ?></h2>
+
+
 
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options'); ?>
@@ -176,28 +165,7 @@ function ilc_flvbox_options(){
 			</div>
 		</td>
 	</tr>
-	<tr valign="top">
-		<th scope="row"><?php _e('Use modal dialog') ?></th>
-		<td>
-			<input id="ilc_flvbox_tb" type="checkbox" name="ilc_tb" <?php if(get_option('ilc_tb') == 'on') echo "checked=\"checked\"";?>/>
-			<label for="tb">
-				<?php _e('If you check this option, the video will play on a modal dialog managed by ThickBox.'); ?>
-			</label>
-			
-			<div id="ilc_flvbox_css_div" <?php if(get_option('ilc_tb') != 'on') echo "style=\"display:none\""; ?> >
-				<p><small><?php _e('Set below the CSS style for the image that will be shown');?></small></p>
-				<textarea name="ilc_flvbox_css" cols="60" rows="10"><?php
-					if( is_file($flvbox_style) && filesize($flvbox_style) > 0) {
-						$fo = "";	
-						$fo = fopen($flvbox_style, 'r');
-						$fr = fread($fo, filesize($flvbox_style));
-						echo $fr;
-						fclose($fo);
-					}
-					else _e('The file you\'re looking for can\'t be found.');?>	</textarea>
-			</div>
-		</td>
-	</tr>
+	
 	<tr valign="top">
 		<th scope="row"><?php _e('FLVBox dimensions') ?></th>
 		<td>
@@ -214,8 +182,18 @@ function ilc_flvbox_options(){
 			<p><small><?php _e('Just in case. You shouldn\'t need to change this.'); ?></small></p>
 		</td>
 	</tr>
-
+	<tr valign="top">
+		<th scope="row"><?php _e('Use modal dialog') ?></th>
+		<td>
+			<input id="ilc_flvbox_tb" type="checkbox" name="ilc_tb" <?php if(get_option('ilc_tb') == 'on') echo "checked=\"checked\"";?>/>
+			<label for="tb">
+				<?php _e('If you check this option, the video will play on a modal dialog managed by ThickBox.'); ?>
+			</label>
+		</td>
+	</tr>
 </table>
+
+
 
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="ilc_flvbox_path,ilc_player,ilc_tb,ilc_flvbox_width,ilc_flvbox_height,ilc_flvbox_osflv_bgcolor,ilc_flvbox_osflv_fgcolor,ilc_flvbox_osflv_volume" />
@@ -223,6 +201,41 @@ function ilc_flvbox_options(){
 <p class="submit">
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button-primary" />
 </p>
+
+</form>
+
+<form id="editcss" method="post" action="" name="EditCSS">
+
+	<div id="ilc_flvbox_css_div" style="margin-left:230px;" <?php if(get_option('ilc_tb') != 'on') echo "style=\"display:none\""; ?> >
+		<?php 
+		/*Save CSS file*/
+		if(!empty($_POST['SubmitCSS'])){
+		$newStyle = stripslashes($_POST['ilc_flvbox_css']);
+		if(is_writeable($flvbox_style)) {
+		    $fow = fopen($flvbox_style, 'w+');
+		    fwrite($fow, $newStyle);
+			fclose($fow);
+		    echo '<div id="message" class="updated fade"><p><strong>Stylesheet saved.</strong></p></div>';
+		}
+		else {
+			echo '<div id="message" class="updated fade"><p><strong>There has been an error trying to write the file. Are you sure you have permission to do so?</strong></p></div>';
+		}
+	}
+		?>
+		<?php _e('Preview Image Style') ?>
+		<p><small><?php _e('Set below the CSS style for the image that will be shown');?></small></p>
+		<textarea name="ilc_flvbox_css" cols="60" rows="10"><?php
+			if( is_file($flvbox_style) && filesize($flvbox_style) > 0) {
+				$fo = "";	
+				$fo = fopen($flvbox_style, 'r');
+				$fr = fread($fo, filesize($flvbox_style));
+				echo $fr;
+				fclose($fo);
+			}
+			else _e('The file you\'re looking for can\'t be found.');?>	</textarea>
+		<p><input type="submit" name="SubmitCSS" class="button-primary" value="<?php _e('Update Changes &raquo;'); ?>"/></p>
+	</div>
+	
 
 </form>
 </div>
@@ -299,10 +312,6 @@ function ilc_flvbox_deactivate(){
 register_activation_hook( __FILE__, 'ilc_flvbox_activate');
 register_deactivation_hook(__FILE__, 'ilc_flvbox_deactivate');
 
-/* Thanks for watching.
- * If you can donate even USD 1 via the PayPal button at the bottom of my front page I will be very grateful.
- * Stay tuned on http://ilovecolors.com.ar for more goodies.
- * */
 
 
 ?>
