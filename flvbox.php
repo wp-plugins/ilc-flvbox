@@ -222,7 +222,7 @@ function ilc_flvbox_options(){
 		}
 	}
 		?>
-		<?php _e('Preview Image Style') ?>
+		<h3><?php _e('Preview Image Style') ?></h3>
 		<p><small><?php _e('Set below the CSS style for the image that will be shown');?></small></p>
 		<textarea name="ilc_flvbox_css" cols="60" rows="10"><?php
 			if( is_file($flvbox_style) && filesize($flvbox_style) > 0) {
