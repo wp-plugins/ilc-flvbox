@@ -233,7 +233,7 @@ function ilc_flvbox_options(){
 				fclose($fo);
 			}
 			else _e('The file you\'re looking for can\'t be found.');?>	</textarea>
-		<p><input type="submit" name="SubmitCSS" class="button-primary" value="<?php _e('Update Changes &raquo;'); ?>"/></p>
+		<p><input type="submit" name="SubmitCSS" class="button-secondary" value="<?php _e('Update Changes &raquo;'); ?>"/></p>
 	</div>
 	
 
